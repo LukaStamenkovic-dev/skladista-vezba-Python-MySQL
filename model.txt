@@ -1,0 +1,9 @@
+BAZA:
+Products: id (PK), name, price, is_active (bool) 
+Inventory: id (PK), product_id (UK) (FK), quantity, minimum_threshold
+Suppliers: id (PK), name, location
+Suppliers_products: PK (supplier_id (FK), product_id (FK)) 
+Orders: id (PK), status
+Order_items: id (PK), order_id (FK), product_id (FK), quantity, price_per_product 
+Users: id (PK), name
+Logs: id (PK), product_id (FK), action_type (prijem / izdavanje / kreiranje porudžbine),  timestamp, quantity_change, order_id (NULLABLE, FK), user_id (FK)
