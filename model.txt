@@ -7,3 +7,30 @@ Orders: id (PK), status
 Order_items: id (PK), order_id (FK), product_id (FK), quantity, price_per_product 
 Users: id (PK), name
 Logs: id (PK), product_id (FK), action_type (prijem / izdavanje / kreiranje porudžbine),  timestamp, quantity_change, order_id (NULLABLE, FK), user_id (FK)
+
+
+
+project/
+ ├── db/
+ │    ├── connection.py
+ │    ├── repositories/product_repository.py (get_by_id, get_all, create, update, delete)
+	   		order_repository (get_by_id, create, update, delete)
+			supplier_repository (get_by_id, create, update, delete)
+			inventory_repository (get_by_id, create, update, delete)
+			log_repository.py
+ │
+ ├── models/
+ │    ├── product.py
+ │    ├── order.py
+       ── order_item.py
+	supplier.py 
+	inventory.py 
+	log.py 
+	user.py
+ │
+ ├── services/
+ │    ├── product_service.py/create_product, update_product
+ │    ├── order_service.py/create_order, change_status
+ │    ├── inventory_service.py/receive_product, issue_product (check quantity, lower_quantity, log) (if quantity > stock: raise Exception("Not enough stock"))
+ │
+ ├── main.py
