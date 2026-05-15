@@ -1,33 +1,41 @@
 from db.connection import get_connection
+from models.inventory import Inventory
 
-def get_by_product_id(product_id):
-    conn = get_connection()
+class InventoryRepository:
 
-    cursor = conn.cursor()
+    def get_by_product_id(self, product_id):
+        conn = get_connection()
 
-    query = "SELECT * FROM inventory WHERE product_id = %s"
+        cursor = conn.cursor()
 
-    cursor.execute(query, (product_id,))
+        query = "SELECT * FROM inventory WHERE product_id = %s"
 
-    result = cursor.fetchone()
+        cursor.execute(query, (product_id,))
 
-    cursor.close()
-    conn.close()
+        result = cursor.fetchone()
 
-    return result
+        cursor.close()
+        conn.close()
+        
+        if not result:
+            return None
+        
+        return Inventory( result[0], result[1], result[2], result[3])
+       
+            
 
     
-def update_quantity(product_id, new_quantity):
-    conn = get_connection()
+    def update_quantity(self, product_id, new_quantity):
+        conn = get_connection()
 
-    cursor = conn.cursor()
+        cursor = conn.cursor()
 
-    query = "UPDATE inventory SET quantity = %s WHERE product_id = %s"
+        query = "UPDATE inventory SET quantity = %s WHERE product_id = %s"
 
-    cursor.execute(query, (new_quantity, product_id))
+        cursor.execute(query, (new_quantity, product_id))
 
-    conn.commit()
-    cursor.close()
-    conn.close()
+        conn.commit()
+        cursor.close()
+        conn.close()
 
 

@@ -1,15 +1,20 @@
 # receive_product, issue_product (check quantity, lower_quantity, log) (if quantity > stock: raise Exception("Not enough stock"))
-from db.repositories.inventory_repository import get_by_product_id
-from db.repositories.inventory_repository import update_quantity
+from db.repositories.inventory_repository import InventoryRepository
+from errors.product_not_found_error import ProductNotFoundError
+from errors.not_enough_stock_error import NotEnoughStockError
 
 def issue_stock(product_id, quantity):
-    inventory = get_by_product_id(product_id)
-    if not inventory:
-        raise Exception("Product not available")
-    # ovde mora ovako jer jer moj repository trenutno vraća: cursor.fetchone() što vraća tuple, ne Inventory objekat.
-    current_stock = inventory[2]
+    inventory_repository = InventoryRepository()
+    inventory = inventory_repository.get_by_product_id(product_id)
+    if inventory is None:
+        raise ProductNotFoundError(product_id)
+
+    current_stock = inventory.quantity
     if current_stock < quantity:
-        raise Exception("Not enough stock")
+        raise NotEnoughStockError(product_id)
     
     new_quantity = current_stock - quantity
-    update_quantity(product_id, new_quantity)
+    inventory_repository.update_quantity(product_id, new_quantity)
+
+
+

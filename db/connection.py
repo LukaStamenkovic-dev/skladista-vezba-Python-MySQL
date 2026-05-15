@@ -12,5 +12,5 @@ def get_connection():
 
 
 def close_connection(conn):
-    if conn:
+    if conn: # i ovo
         conn.close()
