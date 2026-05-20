@@ -43,6 +43,8 @@ class LogRepository:
 
         cursor.close()
         conn.close()
+
+        return rows_list
         
 
         
