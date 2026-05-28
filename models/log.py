@@ -7,3 +7,6 @@ class Log:
         self.quantity_change = quantity_change
         self.order_id = order_id 
         self.user_id = user_id
+
+    def __str__(self):
+        return f'Product ID: {self.product_id} \n Action type: {self.action_type} \n Date: {self.created_at} \n Issued/Received: {self.quantity_change}'
