@@ -54,5 +54,5 @@ def receive_stock(product_id, quantity):
 
 def get_product_logs(product_id):
     log_repository = LogRepository()
-    log = log_repository.get_logs_by_product_id(product_id)
-    return log
+    logs = log_repository.get_logs_by_product_id(product_id)
+    return logs
