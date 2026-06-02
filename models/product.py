@@ -8,3 +8,8 @@ class Product:
         self.is_active = is_active
         self.created_at = created_at
         self.updated_at = updated_at
+
+    def __str__(self):
+        # i ovo mi nije najjasnije kako radi
+        available = "Yes" if self.is_active else "No"
+        return f'Product ID: {self.id} \n Name: {self.name} \n Available: {available} \n Price: {self.price}'
