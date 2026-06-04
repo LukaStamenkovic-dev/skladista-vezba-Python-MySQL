@@ -44,3 +44,28 @@ class ProductRepository:
         conn.close()
 
         return rows_list
+    
+    def get_product_by_id(self, product_id):
+        conn = get_connection()
+        cursor = conn.cursor()
+
+        query = "SELECT * FROM products WHERE id = %s"
+
+        cursor.execute(query, (product_id,))
+        result = cursor.fetchone()
+        
+        if not result:
+            product = None
+        else:
+            product = Product(
+            id=result[0],
+            name=result[1],
+            price=result[2],
+            is_active=result[3],
+            created_at=result[4],
+            updated_at=result[5])
+            
+        cursor.close()
+        conn.close()
+
+        return product
