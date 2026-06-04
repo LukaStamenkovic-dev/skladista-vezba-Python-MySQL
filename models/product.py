@@ -10,6 +10,6 @@ class Product:
         self.updated_at = updated_at
 
     def __str__(self):
-        # i ovo mi nije najjasnije kako radi
+        # i ovo mi nije najjasnije kako radi u smislu kad se poziva
         available = "Yes" if self.is_active else "No"
         return f'Product ID: {self.id} \n Name: {self.name} \n Available: {available} \n Price: {self.price}'

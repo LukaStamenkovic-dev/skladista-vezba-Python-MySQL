@@ -3,7 +3,7 @@ from services.product_service import get_all_products, create_product
 from errors.product_not_found_error import ProductNotFoundError
 from errors.not_enough_stock_error import NotEnoughStockError
 from errors.negative_or_zero_quantity import QuantityValueError
-
+from errors.invalid_product_error import InvalidProductError
 
 running = True
 while running:
@@ -74,11 +74,12 @@ while running:
             print("Invalid input!")
             continue
 
-        result = create_product(name, price)
-        if result:
-            print("Product created successfully!")
-        else:
-            print("Product was not created.")
+
+        try:
+            create_product(name, price)
+            print("Product created!")
+        except InvalidProductError as e:
+            print(e)
 
     if option == 6:
         running = False
