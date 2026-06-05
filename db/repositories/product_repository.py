@@ -69,3 +69,17 @@ class ProductRepository:
         conn.close()
 
         return product
+    
+    def update_product(self, product):
+        conn = get_connection()
+        cursor = conn.cursor()
+
+        query = "UPDATE products SET name = %s, price = %s WHERE id = %s"
+
+        cursor.execute(query, (product.name, product.price, product.id))
+
+        conn.commit()
+        cursor.close()
+        conn.close()
+
+        return product
