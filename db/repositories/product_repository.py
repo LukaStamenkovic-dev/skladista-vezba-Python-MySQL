@@ -83,3 +83,15 @@ class ProductRepository:
         conn.close()
 
         return product
+    
+    def deactivate_product(self, product_id):
+        conn = get_connection()
+        cursor = conn.cursor()
+
+        query = "UPDATE products SET is_active = false WHERE id = %s"
+
+        cursor.execute(query, (product_id,))
+
+        conn.commit()
+        cursor.close()
+        conn.close()

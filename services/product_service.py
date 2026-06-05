@@ -38,3 +38,11 @@ def update_product(product_id, name, price):
     product.price = price
     ProductRepository().update_product(product)
     return product
+
+# Napravio sam kod za uklanjane proizvoda odnosno menjanje statusa ali ne znam da li treba da ga pozivam iz main.py
+def deactivate_product(product_id):
+    product = get_product_by_id(product_id)
+    product.is_active = False
+   
+    ProductRepository().deactivate_product(product_id)
+    return product
