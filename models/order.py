@@ -3,6 +3,7 @@ class Order:
         self.status = status
         self.expected_delivery_date = expected_delivery_date
         self.total_price = total_price
+        self.id = id
         self.created_at = created_at
 
 
