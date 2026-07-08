@@ -1,14 +1,16 @@
 from services.inventory_service import issue_stock, receive_stock, get_product_logs
-from services.product_service import get_all_products, create_product
+from services.product_service import get_all_products, create_product, get_product_by_id
 from errors.product_not_found_error import ProductNotFoundError
 from errors.not_enough_stock_error import NotEnoughStockError
 from errors.negative_or_zero_quantity import QuantityValueError
 from errors.invalid_product_error import InvalidProductError
+from models.order_item import OrderItem
+from services.order_service import create_order
 
 running = True
 while running:
     try:
-        option = int(input(f"Welcome to main menu, please choose option: \n 1. Issue stock \n 2. Receive stock \n 3. Show product logs  \n 4. Show all products \n 5. Create product \n 6. Exit \n"))
+        option = int(input(f"Welcome to main menu, please choose option: \n 1. Issue stock \n 2. Receive stock \n 3. Show product logs  \n 4. Show all products \n 5. Create product \n 6. Create order \n 7. Exit \n"))
     except ValueError:
         print("Invalid input!")
         continue
@@ -82,4 +84,42 @@ while running:
             print(e)
 
     if option == 6:
+        items = []
+
+        add_product = True
+        while add_product:
+            product_id = int(input("Enter product ID: "))
+            try:
+                product = get_product_by_id(product_id)
+            except ProductNotFoundError as e:
+                print(e)
+                continue
+
+            if not product.is_active:
+                print("Product is inactive.")
+                continue
+
+            try:
+                quantity = int(input("Enter quantity: "))
+            except ValueError:
+                print("Invalid input!")
+                continue
+
+            price_per_product = product.price
+
+            order_item = OrderItem(product_id, quantity, price_per_product)
+            items.append(order_item)
+
+            other_product = input("Add another product? y/n")
+            if other_product == "y":
+                continue
+            else:
+                add_product = False
+
+        create_order(items)
+        print("Success!")
+        
+
+
+    if option == 7:
         running = False

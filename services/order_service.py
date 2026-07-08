@@ -1,9 +1,13 @@
 from db.repositories.order_repository import OrderRepository
 from db.repositories.order_item_repository import OrderItemRepository
 from models.order import Order
-from models.order_item import OrderItem
+from datetime import date, timedelta
 
-def create_order(items, expected_delivery_date):
+def create_order(items):
+    today = date.today()
+    delivery_time = timedelta(days=7)
+    expected_delivery_date = today + delivery_time
+
     total_price = 0
     for item in items:
         total_price += item.quantity * item.price_per_product
