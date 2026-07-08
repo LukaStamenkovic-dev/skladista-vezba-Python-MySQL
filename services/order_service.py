@@ -2,8 +2,12 @@ from db.repositories.order_repository import OrderRepository
 from db.repositories.order_item_repository import OrderItemRepository
 from models.order import Order
 from datetime import date, timedelta
+from errors.empty_order_error import EmptyOrderError
 
 def create_order(items):
+    if not items:
+        raise EmptyOrderError()
+
     today = date.today()
     delivery_time = timedelta(days=7)
     expected_delivery_date = today + delivery_time
