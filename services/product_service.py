@@ -21,7 +21,7 @@ def get_all_products():
 
 def get_product_by_id(product_id):
     product = ProductRepository().get_product_by_id(product_id)
-    if product == None:
+    if product is None:
         raise ProductNotFoundError(product_id)
     
     return product

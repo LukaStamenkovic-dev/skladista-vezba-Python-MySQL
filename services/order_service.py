@@ -3,6 +3,7 @@ from db.repositories.order_item_repository import OrderItemRepository
 from models.order import Order
 from datetime import date, timedelta
 from errors.empty_order_error import EmptyOrderError
+from errors.order_not_found_error import OrderNotFoundError
 
 def create_order(items):
     if not items:
@@ -24,4 +25,12 @@ def create_order(items):
         item.order_id = order_id
         OrderItemRepository().create_order_item(item)
 
+    return order
+
+def get_order_by_id(order_id):
+    order = OrderRepository().get_order_by_id(order_id)
+
+    if order is None:
+        raise OrderNotFoundError(order_id)
+    
     return order
