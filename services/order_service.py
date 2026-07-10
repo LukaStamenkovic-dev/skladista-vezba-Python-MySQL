@@ -34,3 +34,13 @@ def get_order_by_id(order_id):
         raise OrderNotFoundError(order_id)
     
     return order
+
+def change_order_status(order_id, status):
+    order = get_order_by_id(order_id)
+    order.status = status
+    OrderRepository().change_order_status(order)
+
+    return order
+
+def get_all_orders():
+    return OrderRepository().get_all_orders()
