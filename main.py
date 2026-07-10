@@ -128,7 +128,11 @@ while running:
             print(order)
 
     if option == 8:
-        order_id = int(input("Enter order ID: "))
+        try:
+            order_id = int(input("Enter order ID: "))
+        except ValueError:
+            print("Invalid input!")
+            continue
         try:
             order_status = int(input("Select order status: \n 1. PENDING \n 2. DELIVERED \n 3. CANCELLED \n"))
         except ValueError:
@@ -151,6 +155,8 @@ while running:
         except OrderNotFoundError as e:
             print(e)
             continue
+        
+        print("Order status updated successfully!")
 
     if option == 9:
         running = False
