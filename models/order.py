@@ -7,7 +7,7 @@ class Order:
         self.created_at = created_at
 
 
-    # def __str__(self):
-        # return f'Product ID: {self.id} \n Name: {self.name} \n Available: {available} \n Price: {self.price}'
+    def __str__(self):
+        return f'Order ID: {self.id} \n Status: {self.status} \n Delivery: {self.expected_delivery_date} \n Total price: {self.total_price}'
     
 

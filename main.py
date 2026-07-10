@@ -1,21 +1,24 @@
 from services.inventory_service import issue_stock, receive_stock, get_product_logs
 from services.product_service import get_all_products, create_product, get_product_by_id
+from services.order_service import create_order, get_all_orders, change_order_status, get_order_by_id
 from errors.product_not_found_error import ProductNotFoundError
 from errors.not_enough_stock_error import NotEnoughStockError
 from errors.negative_or_zero_quantity import QuantityValueError
 from errors.invalid_product_error import InvalidProductError
+from errors.order_not_found_error import OrderNotFoundError
 from models.order_item import OrderItem
-from services.order_service import create_order
+
+
 
 running = True
 while running:
     try:
-        option = int(input(f"Welcome to main menu, please choose option: \n 1. Issue stock \n 2. Receive stock \n 3. Show product logs  \n 4. Show all products \n 5. Create product \n 6. Create order \n 7. Exit \n"))
+        option = int(input(f"Welcome to main menu, please choose option: \n 1. Issue stock \n 2. Receive stock \n 3. Show product logs  \n 4. Show all products \n 5. Create product \n 6. Create order \n 7. Show all orders \n 8. Change order status \n 9. Exit \n"))
     except ValueError:
         print("Invalid input!")
         continue
     
-    if option not in [1, 2, 3, 4, 5, 6]:
+    if option not in [1, 2, 3, 4, 5, 6, 7, 8, 9]:
         print("Invalid option!")
         continue
 
@@ -119,7 +122,35 @@ while running:
         create_order(items)
         print("Success!")
         
-
-
     if option == 7:
+        orders = get_all_orders()
+        for order in orders:
+            print(order)
+
+    if option == 8:
+        order_id = int(input("Enter order ID: "))
+        try:
+            order_status = int(input("Select order status: \n 1. PENDING \n 2. DELIVERED \n 3. CANCELLED \n"))
+        except ValueError:
+            print("Invalid input!")
+            continue
+
+        if order_status not in [1, 2, 3]:
+            print("Invalid option!")
+            continue
+
+        if order_status == 1:
+            status = "PENDING"
+        elif order_status == 2:
+            status = "DELIVERED"
+        else:
+            status = "CANCELLED"
+
+        try:
+            change_order_status(order_id, status)
+        except OrderNotFoundError as e:
+            print(e)
+            continue
+
+    if option == 9:
         running = False
