@@ -1,11 +1,14 @@
 from services.inventory_service import issue_stock, receive_stock, get_product_logs
-from services.product_service import get_all_products, create_product, get_product_by_id
+from services.product_service import get_all_products, create_product, get_product_by_id, update_product, deactivate_product
 from services.order_service import create_order, get_all_orders, change_order_status, get_order_by_id
+from services.supplier_service import create_supplier, get_all_suppliers, update_supplier
 from errors.product_not_found_error import ProductNotFoundError
 from errors.not_enough_stock_error import NotEnoughStockError
 from errors.negative_or_zero_quantity import QuantityValueError
 from errors.invalid_product_error import InvalidProductError
 from errors.order_not_found_error import OrderNotFoundError
+from errors.invalid_supplier_error import InvalidSupplierError
+from errors.supplier_not_found_error import SupplierNotFoundError
 from models.order_item import OrderItem
 
 
@@ -13,12 +16,12 @@ from models.order_item import OrderItem
 running = True
 while running:
     try:
-        option = int(input(f"Welcome to main menu, please choose option: \n 1. Issue stock \n 2. Receive stock \n 3. Show product logs  \n 4. Show all products \n 5. Create product \n 6. Create order \n 7. Show all orders \n 8. Change order status \n 9. Exit \n"))
+        option = int(input(f"Welcome to main menu, please choose option: \n 1. Issue stock \n 2. Receive stock \n 3. Show product logs  \n 4. Show all products \n 5. Create product \n 6. Create order \n 7. Show all orders \n 8. Change order status \n 9. Create supplier \n 10. Show all suppliers \n 11. Update supplier \n 12. Update product \n 13. Deactivate product \n 14. Exit \n"))
     except ValueError:
         print("Invalid input!")
         continue
     
-    if option not in [1, 2, 3, 4, 5, 6, 7, 8, 9]:
+    if option not in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]:
         print("Invalid option!")
         continue
 
@@ -159,4 +162,79 @@ while running:
         print("Order status updated successfully!")
 
     if option == 9:
+        name = input("Enter supplier name: ")
+        location = input("Enter supplier location: ")
+
+        try:
+            create_supplier(name, location)
+            print("Supplier created!")
+        except InvalidSupplierError as e:
+            print(e)
+    
+    if option == 10:
+        suppliers = get_all_suppliers()
+        for supplier in suppliers:
+            print(supplier)
+
+    if option == 11:
+        try:
+            supplier_id = int(input("Enter supplier ID: "))
+        except ValueError:
+            print("Invalid input!")
+            continue
+
+        name = input("Enter supplier name: ")
+        location = input("Enter supplier location: ")
+    
+        try:
+            update_supplier(supplier_id, name, location)
+        except InvalidSupplierError as e:
+            print(e)
+            continue
+        except SupplierNotFoundError as e:
+            print(e)
+            continue
+
+        print("Supplier updated successfully!")
+
+    if option == 12:
+        try:
+            product_id = int(input("Enter product ID: "))
+        except ValueError:
+            print("Invalid input!")
+            continue
+
+        name = input("Enter product name: ")
+        try:
+            price = int(input("Enter product price: "))
+        except ValueError:
+            print("Invalid input!")
+            continue
+        
+        try:
+            update_product(product_id, name, price)
+        except ProductNotFoundError as e:
+            print(e)
+            continue
+        except InvalidProductError as e:
+            print(e)
+            continue
+
+        print("Product updated successfully!")
+    
+    if option == 13:
+        try:
+            product_id = int(input("Enter product ID: "))
+        except ValueError:
+            print("Invalid input!")
+            continue
+
+        try:
+            deactivate_product(product_id)
+        except ProductNotFoundError as e:
+            print(e)
+            continue
+        print("Product deactivated successfully!")
+
+    if option == 14:
         running = False
