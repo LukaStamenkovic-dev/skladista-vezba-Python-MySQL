@@ -5,8 +5,8 @@ def get_connection():
     conn = mysql.connector.connect(
         host="localhost",
         user="root",
-        password="your_password",
-        database="your_database"
+        password="",
+        database="warehouse_management"
     )
     return conn
 
@@ -14,3 +14,9 @@ def get_connection():
 def close_connection(conn):
     if conn: # i ovo
         conn.close()
+
+# Test uspesan!
+# if __name__ == "__main__":
+   # conn = get_connection()
+   # print("Connected successfully!")
+   # conn.close()

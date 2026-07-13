@@ -3,7 +3,7 @@ Products: id (PK), name, price, is_active (bool), created_at, updated_at
 Inventory: id (PK), product_id (UK) (FK), quantity, minimum_threshold, created_at, updated_at 
 Suppliers: id (PK), name, location, created_at, updated_at 
 Suppliers_products: PK (supplier_id (FK), product_id (FK)) 
-Orders: id (PK), status, created_at, expected_delivery_date 
+Orders: id (PK), status, created_at, expected_delivery_date, total_price 
 Order_items: id (PK), order_id (FK), product_id (FK), quantity, price_per_product, created_at 
 Users: id (PK), name, created_at, updated_at
 Logs: id (PK), product_id (FK), action_type (prijem / izdavanje / kreiranje porudžbine),  created_at, quantity_change, order_id (NULLABLE, FK), user_id (FK)
